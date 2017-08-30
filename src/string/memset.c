@@ -29,7 +29,8 @@ void *memset(void *dest, int c, size_t n)
 	n -= k;
 	n &= -4;
 
-#ifdef __GNUC__
+//#ifdef __GNUC__
+#if 0
 	typedef uint32_t __attribute__((__may_alias__)) u32;
 	typedef uint64_t __attribute__((__may_alias__)) u64;
 

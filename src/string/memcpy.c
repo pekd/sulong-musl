@@ -7,7 +7,8 @@ void *memcpy(void *restrict dest, const void *restrict src, size_t n)
 	unsigned char *d = dest;
 	const unsigned char *s = src;
 
-#ifdef __GNUC__
+//#ifdef __GNUC__
+#if 0
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 #define LS >>
