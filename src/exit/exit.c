@@ -17,9 +17,11 @@ extern void (*const __fini_array_start)(void), (*const __fini_array_end)(void);
 
 static void libc_exit_fini(void)
 {
+#if 0
 	uintptr_t a = (uintptr_t)&__fini_array_end;
 	for (; a>(uintptr_t)&__fini_array_start; a-=sizeof(void(*)()))
 		(*(void (**)())(a-sizeof(void(*)())))();
+#endif
 	_fini();
 }
 

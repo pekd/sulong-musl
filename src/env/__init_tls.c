@@ -8,6 +8,9 @@
 #include "atomic.h"
 #include "syscall.h"
 
+// FIXME: implement real tls
+struct pthread __tls_pthread_self__;
+
 int __init_tp(void *p)
 {
 	pthread_t td = p;

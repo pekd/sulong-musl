@@ -37,37 +37,23 @@ void __init_libc(char **envp, char *pn)
 
 	__init_tls(aux);
 	__init_ssp((void *)aux[AT_RANDOM]);
-
-	if (aux[AT_UID]==aux[AT_EUID] && aux[AT_GID]==aux[AT_EGID]
-		&& !aux[AT_SECURE]) return;
-
-	struct pollfd pfd[3] = { {.fd=0}, {.fd=1}, {.fd=2} };
-#ifdef SYS_poll
-	__syscall(SYS_poll, pfd, 3, 0);
-#else
-	__syscall(SYS_ppoll, pfd, 3, &(struct timespec){0}, 0, _NSIG/8);
-#endif
-	for (i=0; i<3; i++) if (pfd[i].revents&POLLNVAL)
-		if (__sys_open("/dev/null", O_RDWR)<0)
-			a_crash();
-	libc.secure = 1;
 }
 
 static void libc_start_init(void)
 {
 	_init();
+#if 0
 	uintptr_t a = (uintptr_t)&__init_array_start;
 	for (; a<(uintptr_t)&__init_array_end; a+=sizeof(void(*)()))
 		(*(void (**)())a)();
+#endif
 }
 
 weak_alias(libc_start_init, __libc_start_init);
 
-int __libc_start_main(int (*main)(int,char **,char **), int argc, char **argv)
+int __libc_start_main(int (*main)(int,char **,char **), int argc, char **argv, char **envp)
 {
-	char **envp = argv+argc+1;
-
-	__init_libc(envp, argv[0]);
+	//__init_libc(envp, argv[0]);
 	__libc_start_init();
 
 	/* Pass control to the application */
