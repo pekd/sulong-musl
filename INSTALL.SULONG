@@ -1,0 +1,4 @@
+export LLVM_COMPILER=clang
+CC=wllvm ./configure
+CC=wllvm make
+extract-bc lib/libc.so
