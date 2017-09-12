@@ -2,7 +2,7 @@
 #include <string.h>
 #include "libc.h"
 
-char *__strdup(const char *s)
+static char *__strdup(const char *s)
 {
 	size_t l = strlen(s);
 	char *d = malloc(l+1);

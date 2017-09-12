@@ -8,9 +8,6 @@
 #include "atomic.h"
 #include "syscall.h"
 
-// FIXME: implement real tls
-struct pthread __tls_pthread_self__;
-
 int __init_tp(void *p)
 {
 	pthread_t td = p;
@@ -18,7 +15,7 @@ int __init_tp(void *p)
 	int r = __set_thread_area(TP_ADJ(p));
 	if (r < 0) return -1;
 	if (!r) libc.can_do_threads = 1;
-	td->tid = __syscall(SYS_set_tid_address, &td->tid);
+	//td->tid = __syscall(SYS_set_tid_address, &td->tid);
 	td->locale = &libc.global_locale;
 	td->robust_list.head = &td->robust_list.head;
 	return 0;
@@ -79,6 +76,7 @@ extern const size_t _DYNAMIC[];
 
 static void static_init_tls(size_t *aux)
 {
+#if 0
 	unsigned char *p;
 	size_t n;
 	Phdr *phdr, *tls_phdr=0;
@@ -133,6 +131,9 @@ static void static_init_tls(size_t *aux)
 
 	/* Failure to initialize thread pointer is always fatal. */
 	if (__init_tp(__copy_tls(mem)) < 0)
+		a_crash();
+#endif
+	if (__init_tp(builtin_tls) < 0)
 		a_crash();
 }
 

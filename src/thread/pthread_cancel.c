@@ -28,6 +28,7 @@ long __syscall_cp_c(syscall_arg_t nr,
 	long r;
 	int st;
 
+#if 0
 	if ((st=(self=__pthread_self())->canceldisable)
 	    && (st==PTHREAD_CANCEL_DISABLE || nr==SYS_close))
 		return __syscall(nr, u, v, w, x, y, z);
@@ -37,6 +38,8 @@ long __syscall_cp_c(syscall_arg_t nr,
 	    self->canceldisable != PTHREAD_CANCEL_DISABLE)
 		r = __cancel();
 	return r;
+#endif
+	return __syscall(nr, u, v, w, x, y, z);
 }
 
 static void _sigaddset(sigset_t *set, int sig)

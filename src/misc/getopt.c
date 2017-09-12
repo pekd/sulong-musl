@@ -6,8 +6,8 @@
 #include "libc.h"
 #include "locale_impl.h"
 
-char *optarg;
-int optind=1, opterr=1, optopt, __optpos, __optreset=0;
+__attribute__((weak)) char *optarg;
+__attribute__((weak)) int optind=1, __attribute__((weak)) opterr=1, __attribute__((weak)) optopt, __optpos, __optreset=0;
 
 #define optpos __optpos
 weak_alias(__optreset, optreset);
@@ -24,7 +24,7 @@ void __getopt_msg(const char *a, const char *b, const char *c, size_t l)
 	funlockfile(f);
 }
 
-int getopt(int argc, char * const argv[], const char *optstring)
+static int __getopt(int argc, char * const argv[], const char *optstring)
 {
 	int i;
 	wchar_t c, d;
@@ -101,4 +101,5 @@ int getopt(int argc, char * const argv[], const char *optstring)
 	return c;
 }
 
-weak_alias(getopt, __posix_getopt);
+weak_alias(__getopt, __posix_getopt);
+weak_alias(__getopt, getopt);
