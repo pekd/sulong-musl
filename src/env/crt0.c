@@ -9,7 +9,7 @@
 int main();
 _Noreturn int __libc_start_main(int (*)(), int, char **, char **);
 
-void _start(long *p)
+void _start(long *p, int extra)
 {
 	int argc = p[0];
 	char **argv = (void *)(p+1);
