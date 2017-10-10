@@ -23,7 +23,6 @@ void __init_libc(char **envp, char *pn)
 {
 	size_t i, *auxv, aux[AUX_CNT] = { 0 };
 	__environ = envp;
-#if 0
 	for (i=0; envp[i]; i++);
 	libc.auxv = auxv = (void *)(envp+i+1);
 	for (i=0; auxv[i]; i+=2) if (auxv[i]<AUX_CNT) aux[auxv[i]] = auxv[i+1];
@@ -35,7 +34,6 @@ void __init_libc(char **envp, char *pn)
 		__progname = __progname_full = pn;
 		for (i=0; pn[i]; i++) if (pn[i]=='/') __progname = pn+i+1;
 	}
-#endif
 
 	__init_tls(aux);
 #if 0
