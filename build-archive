@@ -1,0 +1,12 @@
+#!/bin/sh
+export LLVM_COMPILER=clang
+CC=wllvm make
+extract-bc lib/libc.a
+rm -rf libc-archive
+mkdir libc-archive
+cp lib/libc.bca libc-archive/libc.a
+cd libc-archive
+ar -xv libc.a
+llvm-link -o libc.bc `echo .*.bc`
+cd ..
+cp libc-archive/libc.bc libc/libc.bc
